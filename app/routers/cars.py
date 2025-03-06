@@ -1,6 +1,8 @@
+from turtle import update
 from bson import ObjectId
-from fastapi import APIRouter, Body, HTTPException, Request, status
-from app.models.car_model import CarModel, CarCollection
+from fastapi import APIRouter, Body, Depends, HTTPException, Request, status
+from pymongo import ReturnDocument
+from app.models.car_model import CarModel, CarCollection, UpdateCarModel
 
 cars_router = APIRouter()
 
@@ -49,3 +51,45 @@ async def show_car(id: str, request: Request):
     if (car := await cars.find_one({"_id": ObjectId(id)})) is not None:
         return car
     raise HTTPException(status_code=404, detail=f"Car {id} not found")
+
+
+@cars_router.put(
+    "/{id}",
+    response_description="Update car",
+    response_model=CarModel,
+    response_model_by_alias=False,
+)
+async def update_car(
+    id: str,
+    request: Request,
+    # user=Depends(auth_handler.auth_wrapper),
+    car: UpdateCarModel = Body(...),
+):
+    try:
+        id = ObjectId(id)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Car {id} not found")
+
+    car = {
+        k: v
+        for k, v in car.model_dump(by_alias=True).items()
+        if v is not None and k != "_id"
+    }
+
+    if len(car) >= 1:
+        cars = request.app.db["cars"]
+
+        update_result = await cars.find_one_and_update(
+            {"_id": id},
+            {"$set": car},
+            return_document = ReturnDocument.AFTER,
+        )
+        if update_result is not None:
+            return update_result
+        else:
+            raise HTTPException(status_code=404, detail=f"Car {id} not found")
+
+    if (existing_car := await cars.find_one({"_id": id})) is not None:
+        return existing_car
+    raise HTTPException(status_code=404, detail=f"Car {id} not found")
+
