@@ -93,3 +93,21 @@ async def update_car(
         return existing_car
     raise HTTPException(status_code=404, detail=f"Car {id} not found")
 
+@cars_router.delete(
+    "/{id}",
+    response_description="Delete a car",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def delete_car(id: str, request: Request):
+    try:
+        id = ObjectId(id)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Car {id} not found")
+
+    cars = request.app.db["cars"]
+    delete_result = await cars.delete_one({"_id": id})
+
+    if delete_result.deleted_count == 1:
+        return
+    raise HTTPException(status_code=404, detail=f"Car {id} not found")
+
