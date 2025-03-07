@@ -65,3 +65,10 @@ class UpdateCarModel(BaseModel):
 
 class CarCollection(BaseModel):
     cars: List[CarModel]
+
+class CarCollectionPagination(CarCollection):
+    """
+    docstring
+    """
+    page: int = Field(ge=1, default=1)
+    has_more: bool
