@@ -1,3 +1,4 @@
+from types import NoneType
 from typing import Annotated, Optional, List
 from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, field_validator
 
@@ -12,6 +13,7 @@ class CarModel(BaseModel):
     cm3: int = Field(..., gt=0, lt=5000)
     km: int = Field(..., gt=0, lt=500 * 1000)
     price: int = Field(..., gt=0, lt=100 * 1000)
+    picture_url: Optional[str] = Field(None)
 
     @field_validator("brand")
     @classmethod
