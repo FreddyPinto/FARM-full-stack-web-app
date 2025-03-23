@@ -3,6 +3,7 @@ from bson import ObjectId
 from fastapi import APIRouter, Body, Depends, HTTPException, Request, status
 from pymongo import ReturnDocument
 from app.models.car_model import CarCollectionPagination, CarModel, CarCollection, UpdateCarModel
+from cloudinary import uploader
 
 cars_router = APIRouter()
 
