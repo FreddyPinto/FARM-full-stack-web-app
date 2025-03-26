@@ -1,4 +1,3 @@
-from types import NoneType
 from typing import Annotated, Optional, List
 from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, field_validator
 
@@ -13,6 +12,7 @@ class CarModel(BaseModel):
     cm3: int = Field(..., gt=0, lte=5000)
     km: int = Field(..., gt=0, lte=500 * 1000)
     price: int = Field(..., gt=0, lte=100 * 1000)
+    user_id: str = Field(...)
     picture_url: Optional[str] = Field(None)
 
     @field_validator("brand")
@@ -68,9 +68,7 @@ class UpdateCarModel(BaseModel):
 class CarCollection(BaseModel):
     cars: List[CarModel]
 
+
 class CarCollectionPagination(CarCollection):
-    """
-    docstring
-    """
     page: int = Field(ge=1, default=1)
     has_more: bool
