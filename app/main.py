@@ -7,6 +7,7 @@ from fastapi.encoders import jsonable_encoder
 from collections import defaultdict
 from app.config import BaseConfig
 from app.routers.cars import cars_router
+from app.routers.users import users_router
 
 settings = BaseConfig()
 
@@ -28,7 +29,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(cars_router, prefix="/cars", tags=["cars"])
-
+app.include_router(users_router, prefix="/users", tags=["users"])
 
 @app.get("/")
 async def get_root():
