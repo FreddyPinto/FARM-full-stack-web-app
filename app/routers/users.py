@@ -24,6 +24,6 @@ async def register(request: Request, newUser: LoginModel = Body(...)) -> UserMod
             detail=f"User with username {newUser['username']} already exists",
         )
     new_user = await users.insert_one(newUser)
-    created_user = await users.find_one({"id": new_user.inserted_id})
+    created_user = await users.find_one({"_id": new_user.inserted_id})
 
     return created_user

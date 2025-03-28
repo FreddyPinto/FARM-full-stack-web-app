@@ -5,7 +5,7 @@ PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
 class UserModel(BaseModel):
-    id: Optional[PyObjectId] = Field(alias="id", default=None)
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
     username: str = Field(..., min_length=3, max_length=15)
     password: str = Field(...)
 
