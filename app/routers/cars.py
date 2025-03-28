@@ -1,10 +1,8 @@
-from turtle import update, width
 from bson import ObjectId
 import cloudinary
 from fastapi import (
     APIRouter,
     Body,
-    Depends,
     HTTPException,
     Request,
     UploadFile,
