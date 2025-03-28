@@ -7,9 +7,13 @@ from app.models.user_model import CurrentUserModel, LoginModel, UserModel
 users_router = APIRouter()
 auth_handler = AuthHandler()
 
-@users_router.post("/register", response_description="Register user")
+
+@users_router.post(
+    "/register",
+    response_description="Register user",
+    response_model=UserModel
+)
 async def register(request: Request, newUser: LoginModel = Body(...)) -> UserModel:
-    
     users = request.app.db["users"]
     # has the password before inserting it into MongoDB
     newUser.password = auth_handler.get_password_hash(newUser.password)
