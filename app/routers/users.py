@@ -41,3 +41,18 @@ async def login(request: Request, loginUser: LoginModel = Body(...)) -> JSONResp
     token = auth_handler.encode_token(str(user["_id"]), user["username"])
     response = JSONResponse(content={"token": token, "username": user["username"]})
     return response
+
+
+@users_router.get(
+    "/me",
+    response_description="Logged in user data",
+    response_model=CurrentUserModel,
+)
+async def me(
+    request: Request, response: Response, user_data=Depends(auth_handler.auth_wrapper)
+):
+    users = request.app.db["users"]
+    currentUser = await users.find_one({"_id": ObjectId(user_data["user_id"])})
+    if user_data is None:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    return currentUser
