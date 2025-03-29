@@ -1,10 +1,6 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
-from collections import defaultdict
 from app.config import BaseConfig
 from app.routers.cars import cars_router
 from app.routers.users import users_router
@@ -28,6 +24,13 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(cars_router, prefix="/cars", tags=["cars"])
 app.include_router(users_router, prefix="/users", tags=["users"])
 
