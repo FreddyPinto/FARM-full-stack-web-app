@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-from pydantic import Secret
 import jwt
 from fastapi import HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
