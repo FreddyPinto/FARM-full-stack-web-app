@@ -9,17 +9,20 @@ from fastapi import (
     status,
     Form,
     File,
+    Depends,
 )
 from pymongo import ReturnDocument
+from app.authentication import AuthHandler
 from app.models.car_model import (
     CarCollectionPagination,
     CarModel,
-    CarCollection,
+    # CarCollection,
     UpdateCarModel,
 )
 from app.config import BaseConfig
 
 settings = BaseConfig()
+auth_handler = AuthHandler()
 cars_router = APIRouter()
 
 CARS_PER_PAGE = 10
@@ -60,8 +63,9 @@ async def add_car_with_picture(
     km: int = Form("km"),
     price: int = Form("price"),
     picture: UploadFile = File("picture"),
+    user: str = Depends(auth_handler.auth_wrapper),
 ):
-    cloudinary_image = cloudinary.uploader.upload(picture.file, crop="fill", width=800)
+    cloudinary_image = cloudinary.uploader.upload(picture.file, folder="FARM", crop="fill", width=800)
     picture_url = cloudinary_image["url"]
     car = CarModel(
         brand=brand,
