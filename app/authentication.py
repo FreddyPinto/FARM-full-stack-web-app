@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from datetime import datetime, timedelta, timezone
 from pydantic import Secret
 import jwt
 from fastapi import HTTPException, Security
@@ -24,8 +23,8 @@ class AuthHandler:
                 "user_id": user_id,
                 "username": username,
             },
-            "exp": datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=30),
-            "iat": datetime.now(datetime.timezone.utc),
+            "exp": datetime.now(timezone.utc) + timedelta(minutes=30),
+            "iat": datetime.now(timezone.utc),
         }
         return jwt.encode(payload, self.secret, algorithm="HS256")
 
@@ -37,7 +36,6 @@ class AuthHandler:
             raise HTTPException(status_code=401, detail="Token has expired")
         except jwt.InvalidTokenError:
             raise HTTPException(status_code=401, detail="Invalid token")
-        
-    def auth_wrapper(self, 
-                     auth: HTTPAuthorizationCredentials = Security(security)):
+
+    def auth_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
         return self.decode_token(auth.credentials)
