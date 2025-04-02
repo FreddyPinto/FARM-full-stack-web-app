@@ -5,7 +5,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
-import Cars, { carsLoader } from "./pages/Cars";
+import Cars from "./pages/Cars";
+import { carsLoader } from "./loaders/carsLoader";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NewCar from "./pages/NewCar";
