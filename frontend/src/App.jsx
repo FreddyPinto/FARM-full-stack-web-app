@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import NewCar from "./pages/NewCar";
 import SingleCar from "./pages/SingleCar";
 import NotFound from "./pages/NotFound";
+import { AuthProvider } from "./contexts/AuthProvider";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,5 +27,9 @@ const router = createBrowserRouter(
   )
 );
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />;
+    </AuthProvider>
+  );
 }
