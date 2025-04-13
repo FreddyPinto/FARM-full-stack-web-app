@@ -1,8 +1,8 @@
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 const schema = z.object({
   username: z
@@ -16,8 +16,8 @@ const schema = z.object({
 });
 
 const LoginForm = () => {
-//   const navigate = useNavigate();
-//   const { login } = useAuth();
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const {
     register,
@@ -30,9 +30,9 @@ const LoginForm = () => {
   const onSubmitForm = async (data) => {
     console.log(data);
 
-    // login(data.username, data.password);
+    login(data.username, data.password);
 
-    // navigate("/");
+    navigate("/");
   };
 
   return (
