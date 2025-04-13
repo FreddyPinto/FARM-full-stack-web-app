@@ -7,8 +7,7 @@ const CarCard = ({ car }) => {
       duration-200"
     >
       <div>
-        {car.brand} {car.make} {car.year} {car.cm3}
-        {car.price} {car.km}
+        {car.brand} {car.make} {car.year} {car.cm3} {car.km} {car.price}
       </div>
       <img
         src={car.picture_url}
