@@ -7,6 +7,8 @@ anyio==4.8.0
     #   httpx
     #   starlette
     #   watchfiles
+bcrypt==4.0.1
+    # via backend (pyproject.toml)
 certifi==2025.1.31
     # via
     #   cloudinary
@@ -58,6 +60,8 @@ mdurl==0.1.2
     # via markdown-it-py
 motor==3.7.0
     # via backend (pyproject.toml)
+passlib==1.7.4
+    # via backend (pyproject.toml)
 pydantic==2.10.6
     # via
     #   fastapi
@@ -68,6 +72,8 @@ pydantic-settings==2.8.1
     # via backend (pyproject.toml)
 pygments==2.19.1
     # via rich
+pyjwt==2.10.1
+    # via backend (pyproject.toml)
 pymongo==4.11.2
     # via motor
 python-dotenv==1.0.1
@@ -106,7 +112,6 @@ urllib3==2.3.0
     # via cloudinary
 uvicorn==0.34.0
     # via
-    #   backend (pyproject.toml)
     #   fastapi
     #   fastapi-cli
 watchfiles==1.0.4
