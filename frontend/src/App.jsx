@@ -14,6 +14,7 @@ import SingleCar from "./pages/SingleCar";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./contexts/AuthProvider";
 import AuthRequired from "./components/AuthRequired";
+import fetchCarData from "./utils/fetchCarData";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,7 +24,14 @@ const router = createBrowserRouter(
       <Route element={<AuthRequired />}>
         <Route path="/new-car" element={<NewCar />} />
       </Route>
-      <Route path="/cars/:id" element={<SingleCar />} />
+      <Route
+        path="/cars/:id"
+        element={<SingleCar />}
+        loader={async ({ params }) => {
+          return fetchCarData(params.id);
+        }}
+        errorElement={<NotFound />}
+      />
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
     </Route>
