@@ -1,5 +1,6 @@
 from bson import ObjectId
 import cloudinary
+from cloudinary import uploader
 from fastapi import (
     APIRouter,
     Body,
@@ -63,9 +64,9 @@ async def add_car_with_picture(
     km: int = Form("km"),
     price: int = Form("price"),
     picture: UploadFile = File("picture"),
-    user: str = Depends(auth_handler.auth_wrapper),
+    user: dict = Depends(auth_handler.auth_wrapper),
 ):
-    cloudinary_image = cloudinary.uploader.upload(picture.file, folder="FARM", crop="fill", width=800)
+    cloudinary_image = uploader.upload(picture.file, folder="FARM", crop="fill", width=800)
     picture_url = cloudinary_image["url"]
     car = CarModel(
         brand=brand,
@@ -75,6 +76,7 @@ async def add_car_with_picture(
         km=km,
         price=price,
         picture_url=picture_url,
+        user_id=user["user_id"],
     )
     cars = request.app.db["cars"]
     document = car.model_dump(by_alias=True, exclude=["id"])
