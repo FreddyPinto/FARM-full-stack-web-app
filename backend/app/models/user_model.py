@@ -16,5 +16,5 @@ class LoginModel(BaseModel):
 
 
 class CurrentUserModel(BaseModel):
-    id: PyObjectId = Field(alias="id", default=None)
+    id: PyObjectId = Field(alias="_id", default=None)
     username: str = Field(..., min_length=3, max_length=15)
